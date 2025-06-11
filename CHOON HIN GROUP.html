@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Redirect to Google Maps</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 100px;
+    }
+    .button {
+      display: inline-block;
+      padding: 12px 24px;
+      font-size: 18px;
+      background-color: #4CAF50;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      margin-top: 30px;
+    }
+  </style>
+  <script>
+    // Redirect to Google Maps after 2 seconds
+    setTimeout(function() {
+      window.location.href = "https://www.google.com/maps?q=37.7749,-122.4194";
+    }, 2000);
+  </script>
+</head>
+<body>
+
+  <h2>Redirecting you to the map...</h2>
+  <p>If you're not redirected, click the button below to go back to the form.</p>
+
+  <a href="https://forms.gle/your-google-form-link" class="button">Back to Form</a>
+
+</body>
+</html>
