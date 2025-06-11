@@ -1,39 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Redirect to Google Maps</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <title>Get Current Location</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      margin-top: 100px;
-    }
-    .button {
-      display: inline-block;
-      padding: 12px 24px;
-      font-size: 18px;
-      background-color: #4CAF50;
-      color: white;
-      text-decoration: none;
-      border-radius: 8px;
-      margin-top: 30px;
-    }
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    #output { margin-top: 20px; }
+    button { padding: 10px 20px; font-size: 16px; }
   </style>
-  <script>
-    // Redirect to Google Maps after 2 seconds
-    setTimeout(function() {
-      window.location.href = "https://www.google.com/maps?q=37.7749,-122.4194";
-    }, 2000);
-  </script>
 </head>
 <body>
+  <h2>Get Your Current Location</h2>
+  <button onclick="getLocation()">Show My Location</button>
+  <div id="output"></div>
 
-  <h2>Redirecting you to the map...</h2>
-  <p>If you're not redirected, click the button below to go back to the form.</p>
+  <script>
+    function getLocation() {
+      const output = document.getElementById("output");
+      if (!navigator.geolocation) {
+        output.textContent = "Geolocation is not supported by your browser.";
+        return;
+      }
 
-  <a href="https://forms.gle/your-google-form-link" class="button">Back to Form</a>
+      output.textContent = "Locating…";
 
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const lat = position.coords.latitude.toFixed(6);
+          const lon = position.coords.longitude.toFixed(6);
+          output.innerHTML = `
+            <p><strong>Latitude:</strong> ${lat}</p>
+            <p><strong>Longitude:</strong> ${lon}</p>
+            <p><a href="https://www.google.com/maps?q=${lat},${lon}" target="_blank">View on Google Maps</a></p>
+          `;
+        },
+        (error) => {
+          switch(error.code) {
+            case error.PERMISSION_DENIED:
+              output.textContent = "User denied the request for Geolocation.";
+              break;
+            case error.POSITION_UNAVAILABLE:
+              output.textContent = "Location information is unavailable.";
+              break;
+            case error.TIMEOUT:
+              output.textContent = "The request to get user location timed out.";
+              break;
+            default:
+              output.textContent = "An unknown error occurred.";
+          }
+        }
+      );
+    }
+  </script>
 </body>
 </html>
